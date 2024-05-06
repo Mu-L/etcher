@@ -26,7 +26,7 @@ const adapters: Adapter[] = [
 	new BlockDeviceAdapter({
 		includeSystemDrives: () => true,
 		includeVirtualDrives: () =>
-			process.env.ETCHER_INCLUDE_VIRTUAL_DRIVES === '1',
+			process.env.ETCHER_INCLUDE_VIRTUAL_DRIVES !== 'undefined',
 	}),
 ];
 

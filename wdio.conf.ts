@@ -50,8 +50,10 @@ export const config: Options.Testrunner = {
 		'gui': ['./tests/gui/**/*.spec.ts'],
 		'shared': ['./tests/shared/**/*.spec.ts'],
 		'e2e': [
-			// 'tests/e2e/e2e-flash-from-file.spec.ts',
-			'./tests/e2e/e2e-flash-from-url.spec.ts',
+			[
+				'./tests/e2e/e2e-flash-from-file.spec.ts',
+				'./tests/e2e/e2e-flash-from-url.spec.ts',
+			]
 		],
 	},
 	//

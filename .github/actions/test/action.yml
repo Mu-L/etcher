@@ -69,11 +69,17 @@ runs:
         npm run lint
         npm run package
         
-        # tests requires package to be built
+        # tests requires the app to already be built
         if [[ '${{ runner.os }}' == 'macOS' ]]; then
           # run all tests on macOS including E2E
           # E2E tests can't input the administrative password, therefore the tests need to run as root
-          sudo TARGET_DRIVE=${{ env.TARGET_DRIVE }} ETCHER_INCLUDE_VIRTUAL_DRIVES=1 npm run wdio
+          wget -O ${{ env.TEST_SOURCE_FILE }} ${{ env.TEST_SOURCE_URL }}
+          sudo \
+            TARGET_DRIVE=${{ env.TARGET_DRIVE }} \
+            ETCHER_INCLUDE_VIRTUAL_DRIVES=1 \
+            TEST_SOURCE_FILE: $(pwd)/${{ env.TEST_SOURCE_FILE }} \
+            TEST_SOURCE_URL: ${{ env.TEST_SOURCE_URL }} \
+            run wdio
         else 
           # only run unit tests on Linux and Windows as E2E tests are not supported yet
           npm run wdio:unit
@@ -82,6 +88,8 @@ runs:
       env:
         # https://www.electronjs.org/docs/latest/api/environment-variables
         ELECTRON_NO_ATTACH_CONSOLE: 'true'
+        TEST_SOURCE_URL: 'https://api.balena-cloud.com/download?deviceType=raspberrypi4-64&version=5.2.8&fileType=.zip'
+        TEST_SOURCE_FILE: 'raspberrypi4-64-5.2.8-v16.1.10.img.zip'
 
     - name: Compress custom source
       if: runner.os != 'Windows'
