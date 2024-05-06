@@ -79,7 +79,7 @@ runs:
             ETCHER_INCLUDE_VIRTUAL_DRIVES=1 \
             TEST_SOURCE_FILE: $(pwd)/${{ env.TEST_SOURCE_FILE }} \
             TEST_SOURCE_URL: ${{ env.TEST_SOURCE_URL }} \
-            run wdio
+            npm run wdio
         else 
           # only run unit tests on Linux and Windows as E2E tests are not supported yet
           npm run wdio:unit
